@@ -6,11 +6,19 @@
 
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import Root from './src/containers/Root'
+import { Provider } from 'react-redux'
+import { Root } from './src/containers'
+import { configureStore } from './src/store'
+
+const store = configureStore()
 
 export default class ReduxDashboard extends Component {
     render() {
-        return <Root />
+        return (
+            <Provider store={store}>
+                <Root />
+            </Provider>
+        )
     }
 }
 

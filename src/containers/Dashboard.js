@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
-import * as Actions from '../actions'
+import { increment } from '../actions/CounterActions'
 
 class ReduxDashboard extends Component {
     componentDidMount() {
@@ -69,6 +69,6 @@ export default connect(
         count: state.counter.count
     }),
     dispatch => ({
-        increment: count => dispatch(Actions.increment(count))
+        increment: count => dispatch(increment(count))
     })
 )(ReduxDashboard)

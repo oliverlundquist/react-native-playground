@@ -1,4 +1,4 @@
-import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../constants/ActionTypes';
+import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../constants/CounterConstants';
 
 export default function CountReducer(state = { count: 0 }, action) {
     const count = state.count

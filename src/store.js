@@ -10,5 +10,6 @@ export const configureStore = (initialState) => {
         ? composeWithDevTools({ realtime: true, port: 3001 })(applyMiddleware(invariant(), createLogger(), thunk))
         : applyMiddleware(thunk)
 
+    console.log(reducers, Object.assign(reducers));
     return createStore(combineReducers(reducers), initialState, enhancer);
 }

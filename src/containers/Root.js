@@ -1,35 +1,21 @@
 import React, { Component } from 'react'
-import { Provider } from 'react-redux'
-import { configureStore } from '../store'
-import { default as Dashboard } from './Dashboard'
+import { Dashboard, Login } from './index'
+import { connect } from 'react-redux'
 
-const store = configureStore()
+class Root extends Component {
+    // load config
+    // logged in?
 
-export default class Root extends Component {
     render () {
-        return (
-            <Provider store={store}>
-                <Dashboard />
-            </Provider>
-        )
+        { return this.props.login === true ? ( <Dashboard /> ) : ( <Login /> ) }
     }
 }
 
-
-
-render () {
-    if (this.state.loggedIn) {
-        return (
-            <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    You are authenticated!
-                </Text>
-                <Button style={{color: 'black'}} onPress={this.logout.bind(this)}>Logout</Button>
-            </View>
-        );
-    }
-    else {
-        return (
-            <ReactNativeLogin/>
-        );
-    }
+export default connect(
+    state => ({
+        login: state.login.login
+    })//,
+    // dispatch => ({
+    // increment: count => dispatch(Actions.increment(count))
+    // })
+)(Root)

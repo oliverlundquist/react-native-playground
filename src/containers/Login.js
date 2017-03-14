@@ -2,20 +2,39 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
 import { connect } from 'react-redux'
 import { login } from '../actions/LoginActions'
+import * as Request from '../actions/RequestActions'
 
 class Login extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {text: '', pass: ''};
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.wrapper}>
                     <TextInput
                         autoCapitalize="none"
-                        placeholder="Enter text to see events"
+                        placeholder="Email"
                         autoCorrect={false}
+                        autoFocus={true}
+                        onChangeText={(text) => this.setState({text})}
+                        style={styles.singleLine}
+                    />
+                    <TextInput
+                        autoCapitalize="none"
+                        placeholder="Password"
+                        autoCorrect={false}
+                        secureTextEntry={true}
+                        onChangeText={(pass) => this.setState({pass})}
                         style={styles.singleLine}
                     />
                     <TouchableOpacity style={styles.button} onPress={ () => this.props.loginAction() } >
-                        <Text>L</Text>
+                        <Text>Login! {this.state.text} {this.state.pass}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={ () => this.props.fetchAction('languages') } >
+                        <Text>Go fetch something!</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -31,7 +50,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
     wrapper: {
-        justifyContent: 'flex-start',
+        flex: 1,
+        justifyContent: 'center',
         backgroundColor: 'blue',
         marginVertical: 200,
         marginHorizontal: 50
@@ -42,24 +62,23 @@ const styles = StyleSheet.create({
         padding: 4,
         borderColor: 'gray',
         borderWidth: 1,
-        height: 20,
-        width: 20
+        height: 40
     },
     button: {
         backgroundColor: 'pink',
         padding: 4,
         borderColor: 'gray',
         borderWidth: 1,
-        height: 20,
-        width: 20
     }
 });
 
 export default connect(
     state => ({
-        login: state.login
+        login: state.login,
+        config: state.config
     }),
     dispatch => ({
-        loginAction: someparam => dispatch(login(someparam))
+        loginAction: someparam => dispatch(login(someparam)),
+        fetchAction: someparam => dispatch(Request.get(someparam))
     })
 )(Login)

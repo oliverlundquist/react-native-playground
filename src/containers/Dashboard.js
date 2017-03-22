@@ -1,35 +1,34 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
-import { increment } from '../actions/CounterActions'
+// import { increment } from '../actions-old/CounterActions'
+import * as Storage from '../actions/AsyncStorageActions'
 
 class ReduxDashboard extends Component {
     componentDidMount() {
-        (async function () {
-            try {
-                await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
-            } catch (error) {
-                console.log('error');
-            }
-            try {
-                const value = await AsyncStorage.getItem('@MySuperStore:key');
-                if (value !== null){
-                    console.log(value);
-                }
-            } catch (error) {
-                console.log('error');
-            }
-        })();
+        // (async function () {
+        //     try {
+        //         await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
+        //     } catch (error) {
+        //         console.log('error');
+        //     }
+        //     try {
+        //         const value = await AsyncStorage.getItem('@MySuperStore:key');
+        //         if (value !== null){
+        //             console.log(value);
+        //         }
+        //     } catch (error) {
+        //         console.log('error');
+        //     }
+        // })();
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <View>
-                    <TouchableOpacity onPress={ () => this.props.increment(2) } >
-                        <Text>Counter: {this.props.count}</Text>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity onPress={ () => this.props.reset() } >
+                    <Text>RESET!</Text>
+                </TouchableOpacity>
                 <Text style={styles.welcome}>
                     Welcome to React Native!
                 </Text>
@@ -66,9 +65,9 @@ const styles = StyleSheet.create({
 
 export default connect(
     state => ({
-        count: state.counter.count
+        //
     }),
     dispatch => ({
-        increment: count => dispatch(increment(count))
+        reset: () => dispatch(Storage.remove(['access_token', 'refresh_token', 'shopname', 'username', 'password']))
     })
 )(ReduxDashboard)

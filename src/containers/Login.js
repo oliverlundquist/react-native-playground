@@ -1,25 +1,39 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native'
 import { connect } from 'react-redux'
-import { login } from '../actions/LoginActions'
-import * as Request from '../actions/RequestActions'
+import * as Auth from '../actions/AuthRequestActions'
 
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {text: '', pass: ''};
+        this.state = {shopname: '', username: '', password: ''};
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.wrapper}>
+                    <Text>
+                        {JSON.stringify(this.props)}
+                    </Text>
+                    <Image
+                        source={require('../../assets/mystore-logo.png')}
+                        resizeMode="contain"
+                        backgroundColor="#fff"
+                    />
+                    <TextInput
+                        autoCapitalize="none"
+                        placeholder="Shopname"
+                        autoCorrect={false}
+                        autoFocus={true}
+                        onChangeText={(shopname) => this.setState({shopname})}
+                        style={styles.singleLine}
+                    />
                     <TextInput
                         autoCapitalize="none"
                         placeholder="Email"
                         autoCorrect={false}
-                        autoFocus={true}
-                        onChangeText={(text) => this.setState({text})}
+                        onChangeText={(username) => this.setState({username})}
                         style={styles.singleLine}
                     />
                     <TextInput
@@ -27,14 +41,11 @@ class Login extends Component {
                         placeholder="Password"
                         autoCorrect={false}
                         secureTextEntry={true}
-                        onChangeText={(pass) => this.setState({pass})}
+                        onChangeText={(password) => this.setState({password})}
                         style={styles.singleLine}
                     />
-                    <TouchableOpacity style={styles.button} onPress={ () => this.props.loginAction() } >
-                        <Text>Login! {this.state.text} {this.state.pass}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={ () => this.props.fetchAction('languages') } >
-                        <Text>Go fetch something!</Text>
+                    <TouchableOpacity onPress={ () => this.props.login(this.state) } >
+                        <Text>Login!</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -50,11 +61,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
     wrapper: {
-        flex: 1,
-        justifyContent: 'center',
+        // flex: 1,
+        // justifyContent: 'center',
+        // padding: 50,
+        // borderWidth: 1,
+        // borderColor: 'gray',
         backgroundColor: 'blue',
         marginVertical: 200,
         marginHorizontal: 50
+    },
+    innerWrapper: {
+        // padding: 50
     },
     singleLine: {
         backgroundColor: 'yellow',
@@ -74,11 +91,11 @@ const styles = StyleSheet.create({
 
 export default connect(
     state => ({
-        login: state.login,
-        config: state.config
+        access_token: state.storage.access_token,
+        refresh_token: state.storage.refresh_token
     }),
     dispatch => ({
-        loginAction: someparam => dispatch(login(someparam)),
-        fetchAction: someparam => dispatch(Request.get(someparam))
+        login: state => dispatch(Auth.issueToken(state.shopname, state.username, state.password))
+        // login: async state => dispatch(Client.issueToken(state.shopname, state.username, state.password))
     })
 )(Login)

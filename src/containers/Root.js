@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Dashboard, Login } from './index'
 import { connect } from 'react-redux'
+import { Main, Login } from './'
 import * as Storage from '../actions/AsyncStorageActions'
 
 class Root extends Component {
@@ -9,7 +9,7 @@ class Root extends Component {
     }
 
     render () {
-        { return this.props.access_token && this.props.refresh_token ? ( <Dashboard /> ) : ( <Login /> ) }
+        { return this.props.access_token && this.props.refresh_token ? ( <Main /> ) : ( <Login /> ) }
     }
 }
 

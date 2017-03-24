@@ -14,35 +14,37 @@ class Login extends Component {
             <View style={styles.container}>
                 <View style={styles.wrapper}>
                     <Image
-                        source={require('../../assets/mystore-logo.png')}
+                        source={require('../../assets/mystore-logo@2x.png')}
                         resizeMode="contain"
-                        backgroundColor="#fff"
+                        style={styles.logo}
                     />
+                    <Text style={styles.inputHeader}>Shopname</Text>
                     <TextInput
                         autoCapitalize="none"
-                        placeholder="Shopname"
                         autoCorrect={false}
                         autoFocus={true}
                         onChangeText={(shopname) => this.setState({shopname})}
                         style={styles.singleLine}
                     />
+                    <Text style={styles.inputHeader}>Email</Text>
                     <TextInput
                         autoCapitalize="none"
-                        placeholder="Email"
                         autoCorrect={false}
                         onChangeText={(username) => this.setState({username})}
                         style={styles.singleLine}
                     />
+                    <Text style={styles.inputHeader}>Password</Text>
                     <TextInput
                         autoCapitalize="none"
-                        placeholder="Password"
                         autoCorrect={false}
                         secureTextEntry={true}
                         onChangeText={(password) => this.setState({password})}
                         style={styles.singleLine}
                     />
-                    <TouchableOpacity onPress={ () => this.props.login(this.state) } >
-                        <Text>Login!</Text>
+                    <TouchableOpacity
+                        onPress={ () => this.props.login(this.state) }
+                        style={styles.button}>
+                        <Text style={styles.buttonText}>Login</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -55,34 +57,49 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        backgroundColor: '#F5FCFF',
     },
     wrapper: {
-        // flex: 1,
-        // justifyContent: 'center',
-        // padding: 50,
-        // borderWidth: 1,
-        // borderColor: 'gray',
-        backgroundColor: 'blue',
-        marginVertical: 200,
-        marginHorizontal: 50
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#C5C5C5',
+        borderRadius: 10,
+        shadowColor: '#C5C5C5',
+        shadowOffset: { width: 7, height: 7 },
+        shadowOpacity: 0.5,
+        shadowRadius: -1,
+        marginVertical: 105,
+        marginRight: 25,
+        marginLeft: 30,
+        paddingVertical: 30,
+        paddingHorizontal: 50
     },
-    innerWrapper: {
-        // padding: 50
+    logo: {
+        marginBottom: 15
+    },
+    inputHeader: {
+        marginBottom: 5,
+        fontSize: 16,
+        color: '#dddddd'
     },
     singleLine: {
-        backgroundColor: 'yellow',
         fontSize: 16,
         padding: 4,
-        borderColor: 'gray',
+        borderColor: '#C5C5C5',
         borderWidth: 1,
-        height: 40
+        height: 40,
+        marginBottom: 15
     },
     button: {
-        backgroundColor: 'pink',
-        padding: 4,
-        borderColor: 'gray',
-        borderWidth: 1,
+        backgroundColor: '#82B840',
+        marginTop: 15,
+        padding: 15,
+        borderRadius: 10,
+        width: 150,
+        alignItems: 'center'
+    },
+    buttonText: {
+        color: '#FFFFFF',
+        fontWeight: 'bold'
     }
 });
 

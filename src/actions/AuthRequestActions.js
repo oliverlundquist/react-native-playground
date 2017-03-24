@@ -24,7 +24,7 @@ export const issueToken = (shopname, username, password) => async (dispatch) => 
                 client_id: OAUTH2_CLIENT_ID,
                 client_secret: OAUTH2_CLIENT_SECRET,
                 scope: '*',
-                no_mystore_host: 'shopname',
+                no_mystore_host: 'chips',
                 username: 'oliver@mystore.no',
                 password: 'password'
                 // no_mystore_host: shopname,
@@ -65,9 +65,7 @@ export const issueToken = (shopname, username, password) => async (dispatch) => 
 export const refreshToken = (method = null, resource = null) => async (dispatch, getState) => {
     try {
         dispatch({ type: AUTH_REFRESH_TOKEN_REQUEST })
-        // let requestUrl = 'https://auth.mystore.no/oauth/token'
-        let requestUrl = 'http://localhost/oauth/token'
-        let response = await fetch(requestUrl, {
+        let response = await fetch('https://auth.mystore.no/oauth/token', {
             method: 'POST',
             headers: new Headers({
                 'Accept': 'application/json',

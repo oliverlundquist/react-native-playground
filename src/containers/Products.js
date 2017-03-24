@@ -2,37 +2,20 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet, Text, View, ListView, TouchableHighlight, Image } from 'react-native'
 import * as ApiRequest from '../actions/ApiRequestActions'
+import { ProductDetails } from './'
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
-const LOREM_IPSUM = 'Lorem ipsum dolor sit amet, ius ad pertinax oportere accommodare, an vix civibus corrumpit referrentur. Te nam case ludus inciderint, te mea facilisi adipiscing. Sea id integre luptatum. In tota sale consequuntur nec. Erat ocurreret mei ei. Eu paulo sapientem vulputate est, vel an accusam intellegam interesset. Nam eu stet pericula reprimique, ea vim illud modus, putant invidunt reprehendunt ne qui.';
-const hashCode = function(str) {
-    var hash = 15;
-    for (var ii = str.length - 1; ii >= 0; ii--) {
-        hash = ((hash << 5) - hash) + str.charCodeAt(ii);
-    }
-    return hash;
-};
-
-class Products extends Component {
+class ProductList extends Component {
 
     componentDidMount() {
         this.props.getProducts()
     }
 
-    _genRows(pressData: {[key: number]: boolean}): Array<string> {
-        var dataBlob = [];
-        for (var ii = 0; ii < 100; ii++) {
-            var pressedText = pressData[ii] ? ' (pressed)' : '';
-            dataBlob.push('Row ' + ii + pressedText);
-        }
-        return dataBlob;
-    }
-
-    renderRow(rowData: string, sectionID: number, rowID: number, highlightRow: (sectionID: number, rowID: number) => void) {
-        let imgSource = { uri: 'https://cdn.mystore4.no/users/' + this.props.shopname + '_mystore_no/images/' + rowData.attributes.image }
+    _renderRow(rowData: string, sectionID: number, rowID: number, highlightRow: (sectionID: number, rowID: number) => void) {
+        let imgSource = { uri: 'https://cdn.mystore4.no/cdn/128_128/' + this.props.shopname + '/' + rowData.attributes.image }
         return (
-            <TouchableHighlight onPress={() => { console.log('click click') }}>
+            <TouchableHighlight onPress={() => { this.props.navigator.push({ component: ProductDetails, passProps: { product: rowData.attributes } }) }}>
                 <View>
                     <View style={styles.row}>
                         <Image style={styles.thumb} source={imgSource}/>
@@ -61,11 +44,10 @@ class Products extends Component {
         return (
             <ListView
                 dataSource={this.props.products}
-                renderRow={this.renderRow.bind(this)}
+                renderRow={this._renderRow.bind(this)}
                 renderSeparator={this._renderSeparator}
-            >
-                <Text>Some text</Text>
-            </ListView>
+                automaticallyAdjustContentInsets={false}
+            />
         );
     }
 }
@@ -81,6 +63,7 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
         backgroundColor: '#F6F6F6',
@@ -88,6 +71,8 @@ const styles = StyleSheet.create({
     thumb: {
         width: 64,
         height: 64,
+        marginRight: 10,
+        backgroundColor: '#FFFFFF'
     },
     text: {
         flex: 1,
@@ -102,4 +87,4 @@ export default connect(
     dispatch => ({
         getProducts: () => dispatch(ApiRequest.get('products'))
     })
-)(Products)
+)(ProductList)

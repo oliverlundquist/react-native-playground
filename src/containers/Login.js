@@ -13,9 +13,6 @@ class Login extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.wrapper}>
-                    <Text>
-                        {JSON.stringify(this.props)}
-                    </Text>
                     <Image
                         source={require('../../assets/mystore-logo.png')}
                         resizeMode="contain"

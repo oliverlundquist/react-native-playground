@@ -2,14 +2,12 @@ import { API_GET_REQUEST_SUCCESS } from '../constants'
 
 const defaultState = {
     products: [
-        {
-            attributes: {
-                image: 'images/39013_Korbo_Classic_24_1.jpg',
-                name: {
-                    no: "loading products"
-                }
-            }
-        }
+        { attributes: { image: 'some-loading.gif', name: { no: "..." } } },,
+        { attributes: { image: 'some-loading.gif', name: { no: "..." } } },
+        { attributes: { image: 'some-loading.gif', name: { no: "..." } } },
+        { attributes: { image: 'some-loading.gif', name: { no: "..." } } },
+        { attributes: { image: 'some-loading.gif', name: { no: "..." } } },
+        { attributes: { image: 'some-loading.gif', name: { no: "..." } } }
     ]
 }
 

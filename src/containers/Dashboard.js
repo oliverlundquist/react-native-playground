@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, Image } from 'react-native'
 class Dashboard extends Component {
     render () {
         return (
-            <View style={[styles.tabContent, {backgroundColor: '#ccc'}]}>
+            <View style={styles.tabContent}>
                 <Text style={{ marginTop: 20, marginBottom: 10, marginHorizontal: 50, color: 'white' }}>Dashboard!</Text>
                 <Text style={{ marginTop: 5, marginBottom: 10, marginHorizontal: 50, color: 'white' }}>Put some cool real-time graphs here that show sales data and sales data history</Text>
                 <Image
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     tabContent: {
         flex: 1,
         alignItems: 'center',
+        backgroundColor: '#ccc'
     },
     tabText: {
         color: 'white',

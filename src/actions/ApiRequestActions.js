@@ -1,12 +1,20 @@
 import { API_GET_REQUEST_REQUEST, API_GET_REQUEST_SUCCESS, API_GET_REQUEST_ERROR } from '../constants'
 import * as Auth from './AuthRequestActions'
+import * as qs from 'qs'
 
-export const get = (resource, retrying = false) => async (dispatch, getState) => {
+const defaultGetOptions = {
+    resource: null,
+    parameters: {},
+    callback: (response, options, state) => { return { [options.resource]: response.data } }
+}
+
+export const get = (requestOptions = {}, retrying = false) => async (dispatch, getState) => {
     try {
         dispatch({ type: API_GET_REQUEST_REQUEST })
-        let token = getState().storage.access_token
+        var options  = Object.assign({}, defaultGetOptions, requestOptions);
+        let token    = getState().storage.access_token
         let shopname = getState().storage.shopname
-        var response = await fetch('https://api.mystore.no/shops/' + shopname + '/' + resource, {
+        var response = await fetch('https://api.mystore.no/shops/' + shopname + '/' + options.resource + queryParams(options.parameters), {
             method: 'GET',
             headers: new Headers({
                 'Content-Type': 'application/vnd.api+json',
@@ -25,13 +33,18 @@ export const get = (resource, retrying = false) => async (dispatch, getState) =>
             throw Error(errors);
         }
 
-        dispatch({ type: API_GET_REQUEST_SUCCESS, payload: { [resource]: responseJson.data }})
+        dispatch({ type: API_GET_REQUEST_SUCCESS, payload: options.callback(responseJson, options, getState())})
     } catch (error) {
         dispatch({ type: API_GET_REQUEST_ERROR, payload: error.toString(), error: true });
 
         // can we rescue this? try to refresh token and retry
         if (response.status === 403 && responseJson.errors[0].detail === 'Token has expired or is invalid' && retrying === false) {
-            await dispatch(Auth.refreshToken('get', resource))
+            await dispatch(Auth.refreshToken(options))
         }
     }
+}
+
+const queryParams = (params) => {
+    let queryString = qs.stringify(params)
+    return queryString.length ? '?' + queryString : queryString;
 }

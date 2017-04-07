@@ -8,7 +8,8 @@ const defaultState = {
         { attributes: { image: 'some-loading.gif', name: { no: "..." } } },
         { attributes: { image: 'some-loading.gif', name: { no: "..." } } },
         { attributes: { image: 'some-loading.gif', name: { no: "..." } } }
-    ]
+    ],
+    orders: {}
 }
 
 export default function ResourceReducer(state = defaultState, action) {

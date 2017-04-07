@@ -62,7 +62,7 @@ export const issueToken = (shopname, username, password) => async (dispatch) => 
     }
 }
 
-export const refreshToken = (method = null, resource = null) => async (dispatch, getState) => {
+export const refreshToken = (requestOptions = {}) => async (dispatch, getState) => {
     try {
         dispatch({ type: AUTH_REFRESH_TOKEN_REQUEST })
         let response = await fetch('https://auth.mystore.no/oauth/token', {
@@ -99,9 +99,9 @@ export const refreshToken = (method = null, resource = null) => async (dispatch,
         dispatch({ type: AUTH_REFRESH_TOKEN_SUCCESS })
 
         // should retry?
-        if (method !== null && resource !== null) {
+        if (Object.keys(requestOptions).length) {
             let retrying = true
-            await dispatch(ApiRequest.get('products', retrying))
+            await dispatch(ApiRequest.get(requestOptions, retrying))
         }
 
     } catch (error) {

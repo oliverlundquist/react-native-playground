@@ -85,6 +85,6 @@ export default connect(
         products: ds.cloneWithRows(state.resources.products),
     }),
     dispatch => ({
-        getProducts: () => dispatch(ApiRequest.get('products'))
+        getProducts: () => dispatch(ApiRequest.get({ resource: 'products' }))
     })
 )(ProductList)
